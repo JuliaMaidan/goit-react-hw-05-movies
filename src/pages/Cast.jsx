@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { getCast } from 'components/services/fetchMovies';
 import { useState, useEffect } from 'react';
+import styles from './cast.module.scss';
 
 const Cast = () => {
   const [cast, setCast] = useState({});
@@ -20,22 +21,22 @@ const Cast = () => {
   return (
     <div>
       <Link to={`/movies/${id}`}>
-        <button>Back</button>
+        <button className={styles.collapse}>Collapse</button>
       </Link>
       {!isLoading && <h1>Loading</h1>}
       {isLoading && (
         <div>
-          <h1>CAST</h1>
-          <ul>
+          <ul className={styles.list}>
             {cast.cast.map(({ id, name, character, profile_path }) => (
-              <li key={id}>
+              <li className={styles.item} key={id}>
                 <img
+                  className={styles.img}
                   src={`https://image.tmdb.org/t/p/w780/${profile_path}`}
                   alt={name}
-                  height="150"
+                  height="180"
                 />
-                <p>{name}</p>
-                <p>Character: {character}</p>
+                <p className={styles.name}>{name}</p>
+                <p className={styles.hero}>Character: {character}</p>
               </li>
             ))}
           </ul>

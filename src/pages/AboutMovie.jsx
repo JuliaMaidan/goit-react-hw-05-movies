@@ -1,57 +1,72 @@
 import { useParams, Link, Outlet } from 'react-router-dom';
 import { getMovieById } from 'components/services/fetchMovies';
 import { useState, useEffect } from 'react';
+import styles from './aboutMovie.module.scss';
+import Spinner from 'components/Loader/Loader';
+import { useLocation } from 'react-router';
 
 const AboutMovie = () => {
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/movies';
+
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
-  // const location = useLocation();
-  // console.log(location.state);
 
   useEffect(() => {
     async function fetchMovies() {
       const data = await getMovieById(id);
       setMovies(data);
-      // console.log(data);
       setIsLoading(true);
     }
-    // setIsLoading(false);
     fetchMovies();
   }, [id]);
 
   return (
     <div>
-      <button>
-        <Link to="/movies">Back to products</Link>;
+      <button className={styles.btn}>
+        <Link className={styles.link} to={backLinkHref}>
+          Back to movies
+        </Link>
       </button>
-      {!isLoading && <h1>Loading</h1>}
+      {!isLoading && <Spinner />}
       {isLoading && (
         <div>
-          <img
-            src={`https://image.tmdb.org/t/p/w780/${movies.backdrop_path}`}
-            alt={movies.title}
-            height="200"
-          />
-          <h2>
-            {movies.title ?? movies.name} ({movies.release_date})
-          </h2>
-          <p>User score: {movies.vote_average}</p>
-          <h3>Overview</h3>
-          <p>{movies.overview}</p>
-          <h4>Genres</h4>
-          <ul>
+          <div className={styles.wrapper}>
+            <img
+              className={styles.img}
+              src={`https://image.tmdb.org/t/p/w780/${movies.backdrop_path}`}
+              alt={movies.title}
+              height="200"
+            />
+            <div className={styles.wrapper__name}>
+              <h2 className={styles.title}>
+                {movies.title ?? movies.name} ({movies.release_date})
+              </h2>
+              <p className={styles.score}>User score: {movies.vote_average}</p>
+            </div>
+          </div>
+          <h3 className={styles.overview}>Overview</h3>
+          <p className={styles.overview__desc}>{movies.overview}</p>
+          <h4 className={styles.genres}>Genres</h4>
+          <ul className={styles.genres__list}>
             {movies.genres.map(({ name }) => (
-              <li key={name}>{name},</li>
+              <li className={styles.genres__item} key={name}>
+                {name}
+              </li>
             ))}
           </ul>
-          <p>Additional information</p>
-          <ul>
+          <b className={styles.info}>Additional information</b>
+          <ul className={styles.info__list}>
             <li>
-              <Link to={`/movies/${id}/cast`}>Cast</Link>
+              <Link className={styles.info__link} to={`/movies/${id}/cast`}>
+                Cast
+              </Link>
             </li>
             <li>
-              <Link to={`/movies/${id}/reviews`}>Reviews</Link>
+              <Link className={styles.info__link} to={`/movies/${id}/reviews`}>
+                Reviews
+              </Link>
             </li>
           </ul>
           <Outlet />
