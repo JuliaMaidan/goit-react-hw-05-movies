@@ -9,10 +9,21 @@ const SharedLayout = () => {
     <div>
       <header>
         <nav className={styles.nav}>
-          <NavLink className={styles.nav__link} to="/" end>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? styles.active : styles.nav__link
+            }
+            to="/"
+            end
+          >
             Home
           </NavLink>
-          <NavLink className={styles.nav__link} to="/movies">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? styles.active : styles.nav__link
+            }
+            to="/movies"
+          >
             Movies
           </NavLink>
         </nav>

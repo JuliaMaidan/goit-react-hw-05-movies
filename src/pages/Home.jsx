@@ -9,7 +9,6 @@ function Home() {
     async function fetchMovies() {
       const data = await getMovies();
       setMovies(data.results);
-      // console.log(data.results);
     }
     fetchMovies();
   }, []);
