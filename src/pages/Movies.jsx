@@ -25,8 +25,9 @@ const Movies = () => {
       getSearchedMovies(query).then(response => setMovies(response.results));
     } catch (error) {
       console.log(error);
+      setSearchParams('');
     }
-  }, [searchParams]);
+  }, [searchParams, setSearchParams]);
 
   const handleChange = e => {
     setQuery(e.currentTarget.value.toLowerCase());
