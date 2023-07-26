@@ -7,7 +7,7 @@ axios.defaults.params = {
   // page: 1,
 };
 
-export const getMovies = async page => {
+export const getMovies = async () => {
   const { data } = await axios.get('trending/all/day');
   return data;
 };
@@ -24,6 +24,11 @@ export const getCast = async id => {
 
 export const getReviews = async id => {
   const { data } = await axios.get(`/movie/${id}/reviews`);
+  return data;
+};
+
+export const getSimilad = async id => {
+  const { data } = await axios.get(`/movie/${id}/similar`);
   return data;
 };
 
